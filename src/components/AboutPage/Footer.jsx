@@ -48,10 +48,10 @@ const FooterPage = () => {
             <a target="_blank" href="#" aria-label="Facebook" className="hover:text-dark-purple">
               <Facebook />
             </a>
-            <a target="_blank" href="#" aria-label="Instagram" className="hover:text-dark-purple">
+            <a target="_blank" href="https://www.instagram.com/ikram_ben_yelles/" aria-label="Instagram" className="hover:text-dark-purple">
               <Instagram />
             </a>
-            <a target="_blank" href="#" aria-label="LinkedIn" className="hover:text-dark-purple">
+            <a target="_blank" href="https://www.linkedin.com/in/benyelles-ikram-fadela-2ba988332/" aria-label="LinkedIn" className="hover:text-dark-purple">
               <Linkedin />
             </a>
             <a target="_blank" href="https://github.com/Fad-ikram"  aria-label="Github" className="hover:text-dark-purple">
@@ -64,7 +64,7 @@ const FooterPage = () => {
         </div>
       </div>
       <hr className="border-t border-dark-purple mx-20 mt-10" />
-      <div className="text-center text-dark-purple m-4">
+      <div className="text-center text-dark-purple py-4">
         &copy; {new Date().getFullYear()} Fixfolio. All Rights Reserved.
       </div>
     </footer>

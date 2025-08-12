@@ -3,44 +3,57 @@ import Input from "../../components/Global/Input";
 import bot from "../../../public/bot.webp";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/authContext";
+
 
 const SignIn = () => {
-      const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [email, setEmail] = useState("");
   const [success, setSuccess] = useState("");
-  const [user, setUser] = useState({
-    Username: "",
-    Email: "",
-    Password: "",
-    ConfirmPassword: "",
-  });
+
+  const [password, setPassword] = useState("");
+  const { login } = useAuth();
 
   const handleSignIn = (e) => {
     e.preventDefault();
-    const { Email, Password } = user;
     const emailRegex = /^[\w.%+-]+@[\w.-]+\.[A-Za-z]{2,}$/;
 
-    if (!Email || !Password) {
+    if (!email || !password) {
       setError("All fields are required");
       return;
     }
-    if (!emailRegex.test(Email)) {
+    if (!emailRegex.test(email)) {
       setError("Invalid email format");
       setSuccess("");
       return;
     }
-    if (Password.length < 8) {
+    if (password.length < 8) {
       setError("Password must be at least 8 characters");
       setSuccess("");
       return;
     }
 
     setError("");
+    signInUser();
   };
-  
-      
+
+  async function signInUser() {
+    try {
+      setLoading(true);
+      await login({ email, password });
+      navigate("/portfolio");
+    } catch (error) {
+      console.error("Error creating user:", error);
+      setError(error.response?.data?.message || "An error occurred");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
-    <div className="bg-beige h-screen flex flex-col items-center justify-center overflow-y-hidden"> 
+    <div className="bg-beige h-screen flex flex-col items-center justify-center overflow-y-hidden">
       <div className="flex items-center justify-center gap-4 mb-6 mt-7">
         <img
           src={bot}
@@ -48,7 +61,7 @@ const SignIn = () => {
           className=" w-[80px] h-[80px] object-contain"
         />
         <p className="text-dark-purple font-bold border-[1.5px] border-dark-purple rounded-md w-full py-4 px-4 ">
-            Login to your account to continue your progress :
+          Login to your account to continue your progress :
         </p>
       </div>
       <div className="flex items-center justify-center bg-beige ">
@@ -70,33 +83,31 @@ const SignIn = () => {
           <h2 className="text-xl text-dark-purple font-bold press-start-2p-regular mb-4">
             Login
           </h2>
-           <div className="min-h-[1.5rem] mb-1">
+          <div className="min-h-[1.5rem] mb-1">
             <p className="text-red-700 font-mono">{error || "\u00A0"}</p>
             {!error && success && (
               <p className="text-green-700 font-mono">{success}</p>
             )}
           </div>
-          <Input label="Email" type="email" name="Email" placeholder="Enter your email" 
-           onChange={(e) =>
-             setUser({ ...user, Email: e.target.value })
-              }
-           value={user.Email}
+          <Input
+            label="Email"
+            type="email"
+            placeholder="Enter your email"
+            onChange={(e) => setEmail(e.target.value)}
           />
           <Input
+            onChange={(e) => setPassword(e.target.value)}
             label="Password"
-            name="Password"
             type="password"
             placeholder="Enter your password"
-            value={user.Password}
-            onChange={(e) =>
-              setUser({ ...user, Password: e.target.value })
-            }
           />
-
-          <Button className="bg-dark-purple text-beige  " text="Login"
+          <Button
+            className="bg-dark-purple text-beige  "
+            text="Login"
             onClick={(e) => {
               handleSignIn(e);
             }}
+            isLoading={loading}
           />
         </form>
       </div>

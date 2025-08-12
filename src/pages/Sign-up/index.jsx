@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import Input from "../../components/Global/Input";
 import Button from "../../components/Global/Button";
 import bot from "../../../public/bot.webp";
+import api from "../../lib/axiosApi";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
     Username: "",
     Email: "",
@@ -46,7 +48,37 @@ const SignUp = () => {
     }
 
     setError("");
+     createUser();
   };
+
+  async function createUser() {
+    try {
+      setLoading(true);
+      await api.post(
+        `/users/sign-up`,
+        {
+          name: user.fullName,
+          email: user.email,
+          password: user.password,
+        }
+      );
+      const response = await api.post(
+        `/users/sign-in`,
+        {
+          email: user.email,
+          password: user.password,
+        }
+      );
+      localStorage.setItem("token", response.data.token);
+      navigate("/portfolio");
+    } catch (error) {
+      console.error("Error creating user:", error);
+      setError(error.response?.data?.message || "An error occurred");
+    } finally {
+      setLoading(false);
+    }
+  }
+
 
   return (
     <div className="bg-beige h-screen flex flex-col items-center justify-center">
@@ -114,6 +146,7 @@ const SignUp = () => {
             onClick={(e) => {
               handleSignUp(e);
             }}
+          isLoading={loading}
           />
         </form>
 
