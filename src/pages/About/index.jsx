@@ -14,6 +14,8 @@ import Template from "../../components/AboutPage/Template";
 import ContactPage from "../../components/AboutPage/Contact";
 import FooterPage from "../../components/AboutPage/Footer";
 import Slider from "../../components/AboutPage/slider";
+import AboutFaQ from "../../components/AboutPage/AboutFaQ";
+
 
 const About = () => {
   const navigate = useNavigate();
@@ -42,11 +44,11 @@ const About = () => {
               that truly reflects your personal style and vision.
             </p>
           </div>
-          <img src={portofolio} className="w-[650px]" alt="Portfolio Example" />
+          <img src={portofolio} className="w-[650px] mt-[70px]" alt="Portfolio Example" />
         </aside>
       </section>
 
-      <section class="py-12  text-center ">
+      <section class="py-12 m-[30px] text-center ">
         <aside className="flex justify-center items-center gap-8 ">
           <img src={design} className="w-[600px]" alt="Portfolio Example" />
           <div className="flex flex-col items-center gap-16">
@@ -90,7 +92,7 @@ const About = () => {
           Showcasing Creations Crafted with Fixfolio
         </p>
 
-        <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-14 max-w-5xl">
+        <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-14 max-w-5xl ">
           <Template
             Label={red}
             alt="Marta Veludo Portfolio"
@@ -142,7 +144,10 @@ const About = () => {
         </button>
       </section>
       <ContactPage />
+
       <Slider/>
+            <AboutFaQ/>
+
       <FooterPage />
     </main>
   );

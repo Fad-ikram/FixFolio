@@ -9,10 +9,7 @@ import reaact from "../../../public/svg-icons/react.svg";
 import taillwind from "../../../public/svg-icons/tailwind.svg";
 
 
-
-
 const Slider = () => {
-// Array of icon imports for easier mapping
 const icons = [
     jss,
     httml,

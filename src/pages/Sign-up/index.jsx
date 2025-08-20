@@ -4,20 +4,21 @@ import Input from "../../components/Global/Input";
 import Button from "../../components/Global/Button";
 import bot from "../../../public/bot.webp";
 import api from "../../lib/axiosApi";
+import { useAuth } from "../../hooks/authContext"; 
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const { setUser } = useAuth(); 
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState({
+  const [user, setUserForm] = useState({
     Username: "",
     Email: "",
     Password: "",
     ConfirmPassword: "",
   });
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
     const { Username, Email, Password, ConfirmPassword } = user;
     const emailRegex = /^[\w.%+-]+@[\w.-]+\.[A-Za-z]{2,}$/;
@@ -28,71 +29,60 @@ const SignUp = () => {
     }
     if (Username.length < 3) {
       setError("Username must be at least 3 characters");
-      setSuccess("");
       return;
     }
     if (!emailRegex.test(Email)) {
       setError("Invalid email format");
-      setSuccess("");
       return;
     }
     if (Password.length < 8) {
       setError("Password must be at least 8 characters");
-      setSuccess("");
       return;
     }
     if (Password !== ConfirmPassword) {
       setError("Passwords do not match");
-      setSuccess("");
       return;
     }
 
     setError("");
-     createUser();
-  };
-
-  async function createUser() {
     try {
       setLoading(true);
-      await api.post(
-        `/users/sign-up`,
-        {
-          name: user.fullName,
-          email: user.email,
-          password: user.password,
-        }
-      );
-      const response = await api.post(
-        `/users/sign-in`,
-        {
-          email: user.email,
-          password: user.password,
-        }
-      );
-      localStorage.setItem("token", response.data.token);
-      navigate("/portfolio");
+
+      // Register
+      await api.post(`/users/sign-up`, {
+        name: Username,
+        email: Email,
+        password: Password,
+      });
+
+      // Auto-login
+      const response = await api.post(`/users/sign-in`, {
+        email: Email,
+        password: Password,
+      });
+
+      const { token, user: loggedInUser } = response.data;
+
+      localStorage.setItem("token", token);
+      setUser(loggedInUser); 
+
+      navigate("/portfolio"); 
     } catch (error) {
-      console.error("Error creating user:", error);
       setError(error.response?.data?.message || "An error occurred");
     } finally {
       setLoading(false);
     }
-  }
-
+  };
 
   return (
     <div className="bg-beige h-screen flex flex-col items-center justify-center">
-      <div className="flex items-center justify-center gap-4 mb-5 mt-10 ">
-        <img
-          src={bot}
-          alt="bot"
-          className=" w-[80px] h-[80px] object-contain "
-        />
-        <h className="text-dark-purple font-bold border-[1.5px] border-dark-purple rounded-md w-full py-4 px-4 ">
+      <div className="flex items-center justify-center gap-4 mb-5 mt-10">
+        <img src={bot} alt="bot" className="w-[80px] h-[80px] object-contain" />
+        <h2 className="text-dark-purple font-bold border-[1.5px] border-dark-purple rounded-md w-full py-4 px-4">
           Create an account to save your progress :
-        </h>
+        </h2>
       </div>
-      <div className="flex items-center justify-center ">
+      <div className="flex items-center justify-center">
         <form
           onSubmit={handleSignUp}
           className="mb-4 flex flex-col items-center justify-center bg-beige border-[1.5px] rounded-2xl px-12 py-4 shadow-xl shadow-[0_25px_50px_-7px_rgba(0,0,0,0.25)] border-beige"
@@ -100,11 +90,8 @@ const SignUp = () => {
           <h2 className="text-xl text-dark-purple font-bold press-start-2p-regular mb-2">
             Registration
           </h2>
-        <div className="min-h-[1.5rem] mb-1">
+          <div className="min-h-[1.5rem] mb-1">
             <p className="text-red-700 font-mono">{error || "\u00A0"}</p>
-            {!error && success && (
-              <p className="text-green-700 font-mono">{success}</p>
-            )}
           </div>
           <Input
             label="Username"
@@ -112,7 +99,7 @@ const SignUp = () => {
             type="text"
             placeholder="Enter your username"
             value={user.Username}
-            onChange={(e) => setUser({ ...user, Username: e.target.value })}
+            onChange={(e) => setUserForm({ ...user, Username: e.target.value })}
           />
           <Input
             label="Email"
@@ -120,7 +107,7 @@ const SignUp = () => {
             type="email"
             placeholder="Enter your email"
             value={user.Email}
-            onChange={(e) => setUser({ ...user, Email: e.target.value })}
+            onChange={(e) => setUserForm({ ...user, Email: e.target.value })}
           />
           <Input
             label="Password"
@@ -128,7 +115,7 @@ const SignUp = () => {
             type="password"
             placeholder="Enter your password"
             value={user.Password}
-            onChange={(e) => setUser({ ...user, Password: e.target.value })}
+            onChange={(e) => setUserForm({ ...user, Password: e.target.value })}
           />
           <Input
             label="Confirm Password"
@@ -137,16 +124,14 @@ const SignUp = () => {
             placeholder="Confirm your password"
             value={user.ConfirmPassword}
             onChange={(e) =>
-              setUser({ ...user, ConfirmPassword: e.target.value })
+              setUserForm({ ...user, ConfirmPassword: e.target.value })
             }
           />
           <Button
             className="bg-dark-purple text-beige"
             text="Register"
-            onClick={(e) => {
-              handleSignUp(e);
-            }}
-          isLoading={loading}
+            type="submit"
+            isLoading={loading}
           />
         </form>
 
@@ -167,3 +152,4 @@ const SignUp = () => {
 };
 
 export default SignUp;
+

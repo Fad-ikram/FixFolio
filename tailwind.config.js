@@ -10,7 +10,8 @@ export default {
         beige: "#EBE5D9",
         purple: "#9E83B8",
         "dark-purple": "#6F4C7A",
-        cyan: "#eff4ff",
+        cyan: "#e3ecffff",
+        "dark-cyan": "#e2cee5ff",
       },
       keyframes: {
         'scroll-loop': {

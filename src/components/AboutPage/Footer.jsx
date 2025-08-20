@@ -1,8 +1,8 @@
 import { Facebook, Instagram, Linkedin, Github, Twitter } from "lucide-react";
 const FooterPage = () => {
   return (
-    <footer className=" text-purple ">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-6 py-12">
+    <footer className=" text-purple bg-white ">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-6 py-12 ">
         <div>
           <h2 className="font-bold text-xl mb-2 text-dark-purple">Fixfolio</h2>
           <p className="text-dark-purple ">Craft your portfolio, your way</p>
@@ -63,7 +63,7 @@ const FooterPage = () => {
           </div>
         </div>
       </div>
-      <hr className="border-t border-dark-purple mx-20 mt-10" />
+      <hr className="border-t border-dark-purple mx-20 mt-2" />
       <div className="text-center text-dark-purple py-4">
         &copy; {new Date().getFullYear()} Fixfolio. All Rights Reserved.
       </div>

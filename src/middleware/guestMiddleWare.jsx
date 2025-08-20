@@ -5,10 +5,12 @@ const GuestMiddleware = () => {
   const { user } = useAuth();
 
   if (user) {
-    return <Navigate to="/dashboard" replace />; // Redirect logged-in users
+    return <Navigate to="/portfolio" replace />; // Redirect logged-in users
   }
 
   return <Outlet />;
 };
 
 export default GuestMiddleware;
+
+

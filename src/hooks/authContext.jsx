@@ -7,23 +7,21 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Update user every time the screen is entered (component mounts)
   useEffect(() => {
-    
     const fetchUser = async () => {
       try {
         setLoading(true);
         const token = localStorage.getItem("token");
         if (token) {
-          const currentUser = await getCurrentUser(token);
-          setUser(currentUser);
-          setLoading(false);
+          const response = await getCurrentUser(token);
+          // Adjust this line according to your API response structure
+          setUser(response.data?.user || response.user || null);
         } else {
           setUser(null);
-          setLoading(false);
         }
       } catch (error) {
         setUser(null);
+      } finally {
         setLoading(false);
       }
     };
@@ -33,7 +31,8 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     const result = await signIn(email, password);
     localStorage.setItem("token", result.token);
-    setUser(result.user);
+    // Adjust this line according to your API response structure
+    setUser(result.data?.user || result.user || null);
   };
 
   const logout = () => {
@@ -41,30 +40,29 @@ export function AuthProvider({ children }) {
     setUser(null);
   };
 
-return (
+  return (
     <AuthContext.Provider value={{ user, login, logout }}>
-        {!loading ? (
-            children
-        ) : (
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100vh",
-                    fontSize: "1.5rem",
-                    color: "#555",
-                    background: "#f9f9f9"
-                }}
-            >
-                Loading...
-            </div>
-        )}
+      {!loading ? (
+        children
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+            fontSize: "1.5rem",
+            color: "#555",
+            background: "#f9f9f9",
+          }}
+        >
+          Loading...
+        </div>
+      )}
     </AuthContext.Provider>
-);
+  );
 }
 
-// Custom hook for using auth context
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {

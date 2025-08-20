@@ -6,7 +6,7 @@ const AuthMiddleware = () => {
     
     
   if (!user) {
-    return <Navigate to="/sign-in" replace />; // Redirect logged-in users
+    return <Navigate to="/sign-in" replace />;
   }
 
   return <Outlet />;
