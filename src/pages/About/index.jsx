@@ -16,67 +16,83 @@ import FooterPage from "../../components/AboutPage/Footer";
 import Slider from "../../components/AboutPage/slider";
 import AboutFaQ from "../../components/AboutPage/AboutFaQ";
 
-
 const About = () => {
   const navigate = useNavigate();
   return (
     <main className="bg-cyan">
-      <section class="py-12  text-center ">
+      {/* Section 1 */}
+      <section className="py-12 text-center">
         <aside
           data-aos="fade-up"
-          className="flex justify-center items-center gap-8 "
+          className="flex flex-col md:flex-row justify-center items-center gap-8 px-4"
         >
-          <div className="flex flex-col items-center gap-16">
+          <div className="flex flex-col items-center md:items-start gap-10 md:gap-16">
             <div className="flex items-center justify-center gap-4 mt-7">
               <img
                 src={bot}
                 alt="bot"
-                className=" w-[80px] h-[80px] object-contain"
+                className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
               />
-              <p className="text-dark-purple  press-start-2p-regular border-[1.5px] border-dark-purple rounded-md py-4 px-4 ">
-                What is it FixFolio ?
+              <p className="text-dark-purple press-start-2p-regular border-[1.5px] border-dark-purple rounded-md py-3 px-4 text-sm sm:text-base">
+                What is FixFolio?
               </p>
             </div>
-            <p class="text-xl text-start px-10 max-w-[500px]">
-              Fixfolio is a modern, intuitive portfolio builder no coding
+            <p className="text-base sm:text-lg md:text-xl text-start md:text-left px-4 md:px-10 max-w-[500px]">
+              Fixfolio is a modern, intuitive portfolio builder — no coding
               required. Whether you're a designer, developer or creative
-              professional Fixfolio allows you to craft a standout portfolio
-              that truly reflects your personal style and vision.
+              professional, Fixfolio allows you to craft a standout portfolio
+              that reflects your style and vision.
             </p>
           </div>
-          <img src={portofolio} className="w-[650px] mt-[70px]" alt="Portfolio Example" />
+
+          <img
+            src={portofolio}
+            className="w-full sm:w-[400px] md:w-[550px] lg:w-[650px] mt-8 md:mt-[70px]"
+            alt="Portfolio Example"
+          />
         </aside>
       </section>
 
-      <section class="py-12 m-[30px] text-center ">
-        <aside className="flex justify-center items-center gap-8 ">
-          <img src={design} className="w-[600px]" alt="Portfolio Example" />
-          <div className="flex flex-col items-center gap-16">
+      {/* Section 2 */}
+      <section className="py-12 m-[20px] sm:m-[30px] text-center">
+        <aside className="flex flex-col md:flex-row justify-center items-center gap-8 px-4">
+          <img
+            src={design}
+            className="w-full sm:w-[400px] md:w-[500px] lg:w-[600px]"
+            alt="Design Example"
+          />
+
+          <div className="flex flex-col items-center md:items-start gap-10 md:gap-16">
             <div className="flex items-center justify-center gap-4 mt-7">
-              <p className="text-dark-purple  press-start-2p-regular border-[1.5px] border-dark-purple rounded-md py-4 px-4 ">
-                Why choose Fixfolio?
+              <p className="text-dark-purple press-start-2p-regular border-[1.5px] border-dark-purple rounded-md py-3 px-4 text-sm sm:text-base">
+                Why choose FixFolio?
               </p>
               <img
                 src={terminal}
                 alt="terminal icon"
-                className=" w-[80px] h-[80px] object-contain"
+                className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
               />
             </div>
-            <ul className="flex flex-col items-start font- gap-2 text-xl ">
+
+            <ul className="flex flex-col items-start gap-2 text-base sm:text-lg md:text-xl">
               <li className="flex items-center space-x-2">
-                <Rainbow size={24} color="#6F4C7A" />
+                <Rainbow size={20} className="sm:w-6 sm:h-6" color="#6F4C7A" />
                 <span>Totally Customizable</span>
               </li>
               <li className="flex items-center space-x-2">
-                <SquareCode size={24} color="#6F4C7A" />
+                <SquareCode
+                  size={20}
+                  className="sm:w-6 sm:h-6"
+                  color="#6F4C7A"
+                />
                 <span>Zero Coding Required</span>
               </li>
               <li className="flex items-center space-x-2">
-                <Zap size={24} color="#6F4C7A" />
+                <Zap size={20} className="sm:w-6 sm:h-6" color="#6F4C7A" />
                 <span>Fast and Seamless</span>
               </li>
               <li className="flex items-center space-x-2">
-                <Rocket size={24} color="#6F4C7A" />
+                <Rocket size={20} className="sm:w-6 sm:h-6" color="#6F4C7A" />
                 <span>Start to Showcase with Ease</span>
               </li>
             </ul>
@@ -84,8 +100,8 @@ const About = () => {
         </aside>
       </section>
 
-      <section class="px-6 py-12 flex flex-col items-center gap-6 bg-white ">
-        <h2 class="text-3xl font-bold text-dark-purple mt-12">
+      <section class="px-16 py-12 flex flex-col items-center gap-6 bg-white ">
+        <h2 class="text-3xl font-bold text-dark-purple mt-12 text-center">
           Your Vision Built in Fixfolio
         </h2>
         <p class="text-center text-xl mb-10">
@@ -145,8 +161,8 @@ const About = () => {
       </section>
       <ContactPage />
 
-      <Slider/>
-            <AboutFaQ/>
+      <Slider />
+      <AboutFaQ />
 
       <FooterPage />
     </main>

@@ -24,7 +24,6 @@ const PortfolioPreview = ({ data }) => {
     }
   };
 
-  // 🔹 Save as PDF
   const downloadPDF = async () => {
     const element = portfolioRef.current;
     const canvas = await html2canvas(element, { scale: 2 });
@@ -48,7 +47,7 @@ const PortfolioPreview = ({ data }) => {
 
   return (
     <main ref={portfolioRef}>
-      <div className="flex items-center justify-center gap-4 mt-12">
+      <div className="flex items-center justify-center gap-4 mt-14 mb-4">
         <img
           src={bot}
           alt="bot"
@@ -60,15 +59,16 @@ const PortfolioPreview = ({ data }) => {
       </div>
 
       <section className="bg-cyan p-6 rounded-lg shadow-2xl">
-        {/* === Hero Section === */}
-        <section className="flex justify-around items-center pt-[140px] pb-[130px]">
-          <div>
-            <p className="text-2xl font-semibold">Hello, I'm</p>
-            <br />
-            <h2 className="text-4xl font-bold text-center text-dark-purple mb-4 ">
+        {/* Hero Section */}
+        <section className="flex flex-col-reverse md:flex-row justify-around items-center gap-8 pt-[100px] pb-[100px]">
+          <div className="text-center md:text-left">
+            <p className="text-lg sm:text-2xl font-semibold">Hello, I'm</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-dark-purple mb-4">
               {data.lastName} {data.firstName}
             </h2>
-            <p className="font-bold text-3xl text-purple">{data.role}</p>
+            <p className="font-bold text-xl sm:text-3xl text-purple">
+              {data.role}
+            </p>
           </div>
 
           {data.uploads?.profilePic ? (
@@ -79,16 +79,16 @@ const PortfolioPreview = ({ data }) => {
                   : data.uploads.profilePic
               }
               alt="Profile"
-              className="w-[380px] h-[380px] object-cover rounded-full border-4 border-dark-purple shadow-lg"
+              className="w-40 h-40 sm:w-60 sm:h-60 md:w-[380px] md:h-[380px] object-cover rounded-full border-4 border-dark-purple shadow-lg"
             />
           ) : (
-            <div className="w-[300px] h-[300px] flex items-center justify-center rounded-full border-2 border-gray-300 text-gray-500 bg-white">
+            <div className="w-32 h-32 sm:w-52 sm:h-52 md:w-[300px] md:h-[300px] flex items-center justify-center rounded-full border-2 border-gray-300 text-gray-500 bg-white">
               No Picture
             </div>
           )}
         </section>
 
-        {/* === About Me Section === */}
+        {/* About Me Section */}
         <section className="mt-12 bg-white p-12 rounded-lg shadow-lg mb-[120px]">
           <div className="flex  justify-center items-center gap-2 ">
             <img src={mushroom} alt="icon" className="w-10 h-10 " />
@@ -261,7 +261,7 @@ const PortfolioPreview = ({ data }) => {
           )}
         </section>
 
-        {/* === Contact Section === */}
+        {/* Contact Section */}
         <section className="mt-16 bg-white p-8 rounded-lg shadow-lg">
           <div className="flex justify-center items-center gap-2">
             <img src={chat} alt="Icon" className="w-8 h-8" />
@@ -308,6 +308,7 @@ const PortfolioPreview = ({ data }) => {
           </div>
         </section>
 
+        {/* Future plans */}
         <section className="text-center py-16 mt-16 ">
           <h2 className="text-3xl font-bold text-dark-purple mb-6">
             What’s Next?
@@ -329,6 +330,7 @@ const PortfolioPreview = ({ data }) => {
           </div>
         </section>
 
+        {/* Thank You message */}
         <section className="bg-cyan text-dark-purple py-20 text-center rounded-t-[40px]">
           <h2 className="text-4xl font-extrabold mb-6 animate-bounce">
             Thank You!
@@ -338,8 +340,9 @@ const PortfolioPreview = ({ data }) => {
             – {data.firstName} {data.lastName}
           </p>
         </section>
-        {/* === 🔹 Download Button === */}
         <div className="flex justify-center mt-6 mb-10">
+
+          {/* Download Button */}
           <button
             onClick={downloadPDF}
             className="px-6 py-3 bg-dark-purple text-white font-semibold rounded-lg shadow-md hover:bg-purple transition"

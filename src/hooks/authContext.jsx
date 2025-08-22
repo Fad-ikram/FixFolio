@@ -1,11 +1,14 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; 
 import { signIn, getCurrentUser } from "../api/userCallApi";
+import api from "../lib/axiosApi";                
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -13,8 +16,8 @@ export function AuthProvider({ children }) {
         setLoading(true);
         const token = localStorage.getItem("token");
         if (token) {
+          api.defaults.headers.common["Authorization"] = `Bearer ${token}`; 
           const response = await getCurrentUser(token);
-          // Adjust this line according to your API response structure
           setUser(response.data?.user || response.user || null);
         } else {
           setUser(null);
@@ -28,16 +31,21 @@ export function AuthProvider({ children }) {
     fetchUser();
   }, []);
 
-  const login = async (email, password) => {
-    const result = await signIn(email, password);
+  const login = async ({ email, password }) => {
+    const result = await signIn({ email, password });
     localStorage.setItem("token", result.token);
-    // Adjust this line according to your API response structure
-    setUser(result.data?.user || result.user || null);
+
+    api.defaults.headers.common["Authorization"] = `Bearer ${result.token}`;
+
+    setUser(result.user);
+    navigate("/portfolio"); 
   };
 
   const logout = () => {
     localStorage.removeItem("token");
+    delete api.defaults.headers.common["Authorization"];
     setUser(null);
+    navigate("/sign-in"); 
   };
 
   return (
@@ -53,7 +61,7 @@ export function AuthProvider({ children }) {
             height: "100vh",
             fontSize: "1.5rem",
             color: "#555",
-            background: "#f9f9f9",
+            background: "#EBE5D9",
           }}
         >
           Loading...
@@ -70,3 +78,4 @@ export function useAuth() {
   }
   return context;
 }
+

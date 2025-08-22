@@ -23,12 +23,31 @@ const navigate = useNavigate();
           id="splineViewer"
           url="https://prod.spline.design/0UP9PX00ae3XcnQJ/scene.splinecode"
          ></spline-viewer>
-        <h1 className="text-5xl text-purple font-bold absolute top-[250px] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          FixFolio
-        </h1>
-        <p className="text-5xl text-beige text-center font-bold absolute top-[370px] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        &nbsp;  A PortFolio Built by You &nbsp; for You
-        </p>
+       <h1
+  className="
+    text-3xl sm:text-4xl md:text-5xl  
+    text-purple font-bold 
+    absolute top-[35%] sm:top-[30%] md:top-[250px] 
+    left-1/2 transform -translate-x-1/2 -translate-y-1/2
+    text-center px-2
+  "
+>
+  FixFolio
+</h1>
+
+<p
+  className="
+    text-2xl sm:text-3xl md:text-4xl lg:text-5xl 
+    text-beige font-bold 
+    absolute top-[45%] sm:top-[45%] md:top-[50%] 
+    left-1/2 transform -translate-x-1/2 -translate-y-1/2 
+    w-11/12 sm:w-4/5 lg:w-2/3 
+    text-center px-4
+  "
+>
+  A PortFolio Built by You for You
+</p>
+
         <button onClick={() => navigate("/about")} class="absolute bottom-[180px] left-1/2 transform -translate-x-1/2 cssbuttons-io-button">
           Get started
           <div class="icon">

@@ -37,7 +37,7 @@ const AboutFAQ = () => {
   };
 
   return (
-    <section className="max-w-3xl mx-auto my-[100px] p-6 bg-white shadow-xl rounded-2xl">
+    <section className="max-w-3xl mx-10 sm:mx-20 md:mx-50 lg:mx-auto my-[100px] p-6 bg-white shadow-xl rounded-2xl">
       <h2 className="text-3xl font-bold text-dark-purple mb-6 text-center">
         Portfolio Overview
       </h2>
@@ -47,7 +47,6 @@ const AboutFAQ = () => {
             key={index}
             className="border border-gray-300 rounded-lg shadow-sm"
           >
-            {/* Question */}
             <button
               onClick={() => toggleFAQ(index)}
               className="w-full flex justify-between items-center p-4 text-left font-medium text-lg text-gray-800 hover:bg-gray-50"
@@ -60,7 +59,6 @@ const AboutFAQ = () => {
               )}
             </button>
 
-            {/* Answer */}
             {openIndex === index && (
               <div className="p-4 bg-gray-50 text-gray-700 text-sm">
                 {faq.answer}
