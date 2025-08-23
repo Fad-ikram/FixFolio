@@ -53,7 +53,19 @@ export function AuthProvider({ children }) {
       {!loading ? (
         children
       ) : (
-       <div class="loader"></div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+            fontSize: "1.5rem",
+            color: "#555",
+            background: "#EBE5D9",
+          }}
+        >
+          Loading...
+        </div>
       )}
     </AuthContext.Provider>
   );
