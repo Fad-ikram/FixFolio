@@ -15,7 +15,7 @@ import chat from "../../../public/portfolio-icons/chat.png";
 
 const PortfolioPreview = ({ data }) => {
   const galleryRef = useRef(null);
-  const portfolioRef = useRef(null); // 🔹 for PDF
+  const portfolioRef = useRef(null); 
 
   const scrollGallery = (direction) => {
     if (galleryRef.current) {
@@ -24,18 +24,36 @@ const PortfolioPreview = ({ data }) => {
     }
   };
 
-  const downloadPDF = async () => {
-    const element = portfolioRef.current;
-    const canvas = await html2canvas(element, { scale: 2 });
-    const imgData = canvas.toDataURL("image/png");
+ const downloadPDF = async () => {
+  const element = portfolioRef.current;
 
-    const pdf = new jsPDF("p", "mm", "a4");
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+  // Render the element into a high-resolution canvas
+  const canvas = await html2canvas(element, { scale: 2 });
+  const imgData = canvas.toDataURL("image/png");
 
-    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-    pdf.save(`${data.firstName || "portfolio"}_portfolio.pdf`);
-  };
+  const pdf = new jsPDF("p", "mm", "a4");
+  const pdfWidth = pdf.internal.pageSize.getWidth();
+  const pdfHeight = pdf.internal.pageSize.getHeight();
+
+  const imgWidth = pdfWidth;
+  const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+
+  let heightLeft = imgHeight;
+  let position = 0;
+
+  pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+  heightLeft -= pdfHeight;
+
+  while (heightLeft > 0) {
+    position = heightLeft - imgHeight;
+    pdf.addPage();
+    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+    heightLeft -= pdfHeight;
+  }
+
+  pdf.save(`${data.firstName || "portfolio"}_portfolio.pdf`);
+};
+
 
   if (!data || !data.uploads) {
     return (
@@ -164,7 +182,7 @@ const PortfolioPreview = ({ data }) => {
 
               <div
                 ref={galleryRef}
-                className="flex gap-4 mt-10 overflow-x-hidden snap-x snap-mandatory scrollbar-hide scroll-smooth"
+                className="flex gap-12 mt-10 overflow-x-hidden snap-x snap-mandatory scrollbar-hide scroll-smooth"
               >
                 {data.uploads.gallery.map((file, index) => {
                   const imgURL =
@@ -172,7 +190,7 @@ const PortfolioPreview = ({ data }) => {
                   return (
                     <div
                       key={index}
-                      className="flex-shrink-0 w-80 h-40 snap-center rounded-lg border shadow-sm hover:cursor-pointer"
+                      className="flex-shrink-0 w-100 h-[240px] snap-center rounded-lg border shadow-sm hover:cursor-pointer"
                     >
                       <img
                         src={imgURL}
@@ -195,13 +213,13 @@ const PortfolioPreview = ({ data }) => {
         </section>
 
         {/* Projects,CV Section */}
-        <div className="flex justify-center items-center gap-4 pt-8">
+        <div className="flex justify-center items-center gap-4 ">
           <img src={skills} alt="icon" className="w-10 h-10" />
           <h3 className="text-2xl font-bold text-dark-purple border-b text-center">
             Documents & Resources
           </h3>
         </div>
-        <section className=" flex justify-evenly mt-8 mb-20">
+        <section className=" flex justify-evenly mt-8 pb-20">
           {data.uploads.projects?.length > 0 && (
             <div className="mt-6">
               <div className="flex items-center">
