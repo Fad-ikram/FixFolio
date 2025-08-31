@@ -13,7 +13,7 @@ import projet from "../../../public/portfolio-icons/projet.png";
 import skills from "../../../public/portfolio-icons/skills.png";
 import chat from "../../../public/portfolio-icons/chat.png";
 
-const PortfolioPreview = ({ data }) => {
+const PortfolioPreview = ({ data, onEdit }) => {
   const galleryRef = useRef(null);
   const portfolioRef = useRef(null); 
 
@@ -358,7 +358,7 @@ const PortfolioPreview = ({ data }) => {
             – {data.firstName} {data.lastName}
           </p>
         </section>
-        <div className="flex justify-center mt-6 mb-10">
+        <div className="flex justify-center gap-4 mt-6 mb-10">
 
           {/* Download Button */}
           <button
@@ -367,6 +367,12 @@ const PortfolioPreview = ({ data }) => {
           >
             💾 Save & Download as PDF
           </button>
+           <button
+          onClick={onEdit}
+          className="px-6 py-3 bg-gray-600 text-white font-semibold rounded-lg shadow-md hover:bg-gray-800 transition"
+        >
+          ✏️ Edit Portfolio
+        </button>
         </div>
       </section>
     </main>
@@ -374,3 +380,4 @@ const PortfolioPreview = ({ data }) => {
 };
 
 export default PortfolioPreview;
+    

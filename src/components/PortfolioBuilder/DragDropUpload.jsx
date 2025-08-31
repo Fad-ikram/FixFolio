@@ -1,43 +1,38 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 
 const DragDropUpload = ({ label, type, onUpload }) => {
-  const [dragging, setDragging] = useState(false);
   const fileInputRef = useRef(null);
+
+  const handleFiles = (files) => {
+    if (!files || files.length === 0) return;
+    onUpload(Array.from(files));
+  };
 
   const handleDrop = (e) => {
     e.preventDefault();
-    setDragging(false);
-    const files = Array.from(e.dataTransfer.files);
-    onUpload(files);
+    handleFiles(e.dataTransfer.files);
   };
 
-  const handleClick = () => {
-    fileInputRef.current.click();
+  const handleChange = (e) => {
+    handleFiles(e.target.files);
   };
 
   return (
     <div
-      onClick={handleClick}
-      onDragOver={(e) => e.preventDefault()}
-      onDragEnter={() => setDragging(true)}
-      onDragLeave={() => setDragging(false)}
+      className="border-2 border-dashed border-purple rounded-lg p-6 text-center cursor-pointer hover:bg-purple/10"
+      onClick={() => fileInputRef.current?.click()}
       onDrop={handleDrop}
-      className={`border-2 border-dashed p-6 rounded-lg text-center cursor-pointer ${
-        dragging ? "bg-cyan-100 border-blue-400" : "border-gray-300"
-      }`}
+      onDragOver={(e) => e.preventDefault()}
     >
-      <p className="font-medium">{label}</p>
-      <p className="text-sm text-gray-500">
-        {type === "cv" ? "Click or drag your CV (PDF)" : "Click or drag files here"}
-      </p>
+      <p className="text-dark-purple font-semibold">{label}</p>
+      <p className="text-gray-500 text-sm">Drag & Drop or Click to Upload</p>
+
       <input
         ref={fileInputRef}
         type="file"
-        accept={type === "cv" ? ".pdf,.doc,.docx" : type === "gallery" ? "image/*" : "*"}
-        multiple={type !== "cv"} // CV = 1 seul fichier
-        onChange={(e) => onUpload(Array.from(e.target.files))}
+        multiple={type !== "profilePic"} // profile pic = 1 file
+        onChange={handleChange}
         className="hidden"
-        id={`file-${type}`}
       />
     </div>
   );
