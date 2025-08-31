@@ -18,6 +18,7 @@ const SignUp = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
+    
     const { Username, Email, Password, ConfirmPassword } = user;
     const emailRegex = /^[\w.%+-]+@[\w.-]+\.[A-Za-z]{2,}$/;
 
